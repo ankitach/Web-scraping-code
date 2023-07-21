@@ -1,0 +1,131 @@
+
+Scrapy:
+An open source and collaborative framework for extracting the data you need from websites.
+In a fast, simple, yet extensible way.
+
+1.Create virtual environment
+pip install virtualenv
+virtualenv env
+
+2.Activate the environment
+env\Scripts\activate
+
+3.Installation:
+pip install scrapy
+
+Usage:
+scrapy <command> [options] [args]
+
+Available commands:
+  bench         Run quick benchmark test
+  fetch         Fetch a URL using the Scrapy downloader
+  genspider     Generate new spider using pre-defined templates
+  runspider     Run a self-contained spider (without creating a project)
+  settings      Get settings values
+  shell         Interactive scraping console
+  startproject  Create new project
+  version       Print Scrapy version
+  view          Open URL in browser, as seen by Scrapy
+
+4.create new project 
+scrapy startproject bookscraper
+
+5.create scrapy spider
+--> cd project_name\spider
+--> scrapy genspider bookspider books.toscrape.com
+book.toscrape.com: website which we want to scrap
+
+6. installation of ipython(provide a different shell)
+pip install ipython
+
+7. SHELL command
+scrapy shell
+
+Available Scrapy objects:
+   scrapy     scrapy module (contains scrapy.Request, scrapy.Selector, etc)
+   crawler    <scrapy.crawler.Crawler object at 0x000001D57B41BA50>
+   item       {}
+   settings   <scrapy.settings.Settings object at 0x000001D57B270F50>
+   Useful shortcuts:
+   fetch(url[, redirect=True]) Fetch URL and update local objects (by default, redirects are followed)
+   fetch(req)                  Fetch a scrapy.Request and update local objects
+   shelp()           Shell help (print this help)
+   view(response)    View response in a browser
+
+8. For fetch the url
+fetch ('https://books.toscrape.com/')
+
+9. for any respose from the url
+--> response.css('article.product_pod')
+--> books=response.css('article.product_pod').get()
+--> len(books)
+--> book = books[0]
+--> book.css('h3 a::text').get() #not working
+--> book.css('.product_price .price_color::text').get() #not working
+--> book.css('h3 a').get()
+--> book.css('h3 a').attrib['href']
+
+10 run scrapy by crawl 
+scrapy crawl bookspider
+
+for specific page title
+response.css('.product_main h1::text').get()
+table_row = response.css("table tr")
+table_row[1].css('td ::text').get()
+response.css("p.star-rating").attrib['class'] 
+xpath
+response.xpath("//ul[@class='breadcrumb']/li[@class='active']/preceding-sibling::li[1]/a/text()").get()
+response.xpath("//div[@id='product_description']/following-sibling::p/text()").get()
+
+now we also save the file
+scrapy crawl bookspider -O bookdata.csv
+
+Open items.py
+
+Overwrites any existing file with the same name with the current data:
+scrapy crawl bookspider -O cleandata.json
+
+Appends new data to an existing file:
+scrapy crawl bookspider -o cleandata.json
+
+pip install mysql mysql-connector-python
+1:52:25
+
+connect with postgres
+psql -U postgres
+
+Command	                                                Description	                                  Additional Information
+psql -d database -U user -W	            Connects to a database under a specific user	        -d: used to state the database name 
+                                                                                              -U:used to state the database user
+psql -h host -d database -U user -W	    Connect to a database that resides on another host	  -h: used to state the host 
+												                                                                      -d: used to state the database name 
+												      -U:used to state the database user
+psql -U user -h host “dbname=db sslmode=require”  Use SSL mode for the connection 	          -h: used to state the host 
+                                                                                              -U:used to state the database user
+\c dbname				Switch connection to a new database	 
+\l					    List available databases	 
+\dt				    	List available tables	 
+\d table_name			        Describe a table such as a column, type, modifiers of columns, etc.	 
+\dn				       	List all schemes of the currently connected database	 
+\df				      	List available functions in the current database	 
+\dv				      	List available views in the current database	 
+\du				      	List all users and their assign roles	 
+SELECT version();	Retrieve the current version of PostgreSQL server	 
+\g					      Execute the last command again	 
+\s					      Display command history	 
+\s filename				Save the command history to a file	 
+\i filename				Execute psql commands from a file	 
+\?					      Know all available psql commands	 
+\h					      Get help					Eg:to get detailed information on ALTER TABLE statement use the \h ALTER TABLE
+\e					      Edit command in your own editor	 
+\a					      Switch from aligned to non-aligned column output	 
+\H				      	Switch the output to HTML format	 
+\q				      	Exit psql shell	 
+
+path to work:
+cd C:\Users\DELL\Desktop\Web_scraping\bookscraper 
+
+MYSQL:
+cd C:\Program Files\MySQL\MySQL Server 8.0\bin
+mysql -uroot -p
+mysql -h localhost -uroot -p

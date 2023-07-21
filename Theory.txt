@@ -1,0 +1,220 @@
+What Is Scrapy?
+Developed by the co-founders of Zyte, Pablo Hoffman and Shane Evans, Scrapy is a Python framework specifically 
+designed for web scraping.
+
+Using Scrapy you can easily build highly scalable scrapers that will retrieve a pages HTML, parse and process 
+the data, and store it the file format and location of your choice.
+
+Why & When Should You Use Scrapy?
+Scrapy is a Python framework designed specifically for web scraping. Built using Twisted, an event-driven 
+networking engine, Scrapy uses an asynchronous architecture to crawl & scrape websites at scale fast.
+
+With Scrapy you write Spiders to retrieve HTML pages from websites and scrape the data you want, clean and 
+validate it, and store it in the data format you want.
+
+Scrapy is a highly customizable web scraping framework, that also has a large community of developers building 
+extensions & plugins for it.
+
+So if the vanilla version of Scrapy doesn't have everything you want, then it is easily customized with open-source 
+Scrapy extensions or your own middlewares/extensions.
+
+Why Choose Scrapy?
+Although, there are other Python libraries also used for web scraping:
+
+Python Requests/BeautifulSoup: Good for small scale web scraping where the data is returned in the HTML response. 
+Would need to build your own spider management functionality to manage concurrency, retries, data cleaning, data storage.
+
+Python Request-HTML: Combining Python requests with a parsing library, Request-HTML is a middle-ground between the 
+Python Requests/BeautifulSoup combo and Scrapy.
+
+Python Selenium: Use if you are scraping a site if it only returns the target data after the Javascript has rendered,
+or you need to interact with page elements to get the data.
+
+Python Scrapy has lots more functionality and is great for large scale scraping right out of the box:
+
+>> CSS Selector & XPath Expressions Parsing
+>> Data formatting (CSV, JSON, XML) and Storage (FTP, S3, local filesystem)
+>> Robust Encoding Support
+>> Concurrency Managament
+>> Automatic Retries
+>> Cookies and Session Handling
+>> Crawl Spiders & In-Built Pagination Support
+You just need to customize it in your settings file or add in one of the many Scrapy extensions and middlewares 
+that developers have open sourced.
+
+The learning curve is initially steeper than using the Python Requests/BeautifulSoup combo, however, it will 
+save you a lot of time in the long run when deploying production scrapers and scraping at scale.
+
+Python Virtual Environments
+To avoid version conflicts down the raod it is best practice to create a seperate virtual environments for each 
+of your Python projects. This means that any packages(3rd party code/module) you install for a project are kept 
+seperate from other projects, so you don't inadverently end up breaking other projects.
+
+Depending on the operating system of your machine these commands will be slightly different.
+
+venv comes "built in" as part of the latest version of Python 3 and makes it simple to setup and use virtual 
+environments.
+
+Setting Up Your Python Virtual Environment On Windows
+Setting up a virtual environment on Windows is also pretty simple, but we will use virtualenv instead as venv can be more complicated to install on Windows.
+
+Install virtualenv in your Windows command shell, Powershell, or other terminal you are using.
+
+pip install virtualenv
+
+Navigate to the folder where you want to create the virtual environment, and run the virtualenv command.
+
+cd /free_code_camp_scrapy
+virtualenv venv
+
+We then activate the virtual environment so that any new pip install commands will install into the new venv folder.
+
+source venv\Scripts\activate
+
+How To Install Scrapy
+With our virtual environment created and activated, now it is time to install Scrapy into it.
+
+To do so we just need to install Scrapy via Pip:
+
+pip install scrapy
+
+To make sure everything is working, we can check if Scrapy was installed correctly by typing the 
+command scrapy into your command line you should get an output like this:
+
+$ scrapy
+
+Usage:
+  scrapy <command> [options] [args]
+
+Available commands:
+  bench         Run quick benchmark test
+  check         Check spider contracts
+  commands
+  crawl         Run a spider
+  edit          Edit spider
+  fetch         Fetch a URL using the Scrapy downloader
+  genspider     Generate new spider using pre-defined templates
+  list          List available spiders
+  parse         Parse URL (using its spider) and print the results
+  runspider     Run a self-contained spider
+
+
+If you get a output similar to the above then you know you have successfully installed Scrapy.
+
+How To Create A Scrapy Project:
+Now that we have our virtual environment setup and Scrapy installed, we can get onto the fun stuff. 
+creating our first Scrapy project
+
+Our Scrapy project will hold all the code for our scrapers, and is a pre-built template for how we should 
+structure our scrapers when using Scrapy.
+
+To create a scrapy project, we need to use the following command in our command line:
+scrapy startproject <project_name>
+
+So in our projects case, as we're going to be scraping the BooksToScrape website, we will call our project bookscraper. 
+But you can use any project name you would like.
+scrapy startproject bookscraper
+
+Now if we enter the ls command into the command line we should see the following files/folders:
+├── scrapy.cfg
+└── bookscraper
+
+Overview of The Scrapy Project Structure:
+To help us understand what we've just done, and how Scrapy structures it projects we're going to pause for a second.
+
+First, we're going to see what the scrapy startproject bookscraper command we ran just did. If you open the folder 
+in VS Code or another code editor program you should see the full folder structure.
+
+You should see something like this:
+├── scrapy.cfg
+└── bookscraper
+    ├── __init__.py
+    ├── items.py
+    ├── middlewares.py
+    ├── pipelines.py
+    ├── settings.py
+    └── spiders
+        └── __init__.py
+
+When we ran the scrapy startproject bookscraper command, Scrapy automatically generated a template project for us to use.
+
+This folder structure illustrates the 5 main building blocks of every Scrapy project: Spiders, Items, Middlewares, 
+Pipelines and Settings.
+
+Using these 5 building blocks you can create a scraper to do pretty much anything.
+
+We won't be using all of these files in this beginners project, but we will give a quick explanation of each as each 
+one has a special purpose:
+
+settings.py is where all your project settings are contained, like activating pipelines, middlewares etc. Here you 
+can change the delays, concurrency, and lots more things. items.py is a model for the extracted data. You can define 
+a custom model (like a ProductItem) that will inherit the Scrapy Item class and contain your scraped data.
+pipelines.py is where the item yielded by the spider gets passed, it’s mostly used to clean the text and connect
+to file outputs or databases (CSV, JSON SQL, etc). middlewares.py is useful when you want to modify how the request 
+is made and scrapy handles the response.
+scrapy.cfg is a configuration file to change some deployment settings, etc.
+The most fundamental of which are Spiders.
+
+MORE COMPLEX EXPLANATIONS
+Below, we explain the 5 main building blocks of every Scrapy project Spiders, Items, Middlewares, Pipelines and Settings 
+in more detail. If you are new to Python and/or Scrapy this might be too much information too fast so feel free to skip 
+this section as we will be covering each section in more detail later.
+
+However, if you would like a high level overview of Spiders, Items, Middlewares, Pipelines and Settings then check out
+the following sections.
+
+Scrapy Spiders Explained
+Scrapy spiders is where the magics happens. "Spiders" are the Scrapy name for the main Python class that extracts 
+the data you need from a website.
+
+In your Scrapy project, you can have multiple Spiders all scraping the same or different websites and storing the 
+data in different places.
+
+Anything you could do with a Python Requests/BeautifulSoup scraper you can do with a Scrapy Spider.
+
+
+import scrapy
+
+class BooksSpider(scrapy.Spider):
+    name = 'books'
+
+    def start_requests(self):
+        url = 'https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html'
+        yield scrapy.Request(url, callback=self.parse)
+
+    def parse(self, response):
+        item = {}
+    product = response.css("div.product_main")
+    item["title"] = product.css("h1 ::text").extract_first()
+    item['category'] = response.xpath(
+        "//ul[@class='breadcrumb']/li[@class='active']/preceding-sibling::li[1]/a/text()"
+    ).extract_first()
+    item['description'] = response.xpath(
+        "//div[@id='product_description']/following-sibling::p/text()"
+    ).extract_first()
+    item['price'] = response.css('p.price_color ::text').extract_first()
+    yield item
+
+
+To run this Spider, you simply need to run:
+scrapy crawl books
+
+When the above Spider is run, it will send a request to https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html 
+and once it has responded it will scrape all book data from the page.
+
+There are a couple things to point out here:
+
+Asynchronous - As Scrapy is built using the Twisted framework, when you send a request to a website it isn't blocking. 
+Scrapy will send the request to the website, and once it has retrieved a successful response it will tigger the parse 
+method using the callback defined in the original Scrapy Request yield scrapy.Request(url, callback=self.parse).
+Spider Name - Every spider in your Scrapy project must have a unique name so that Scrapy can identify it. You set this
+using the name = 'books' attribute.
+Start Requests - You define the starting points for your spider using the start_requests() method. Subsequent requests 
+can be generated successively from these initial requests.
+Parse - You use the parse() method to process the response from the website and extract the data you need. After 
+extraction this data is sent to the Item Pipelines using the yield command.
+Although this Scrapy spider is a bit more structured than your typical Python Requests/BeautifulSoup scraper it 
+accomplishes the same things.
+
+However, it is with Scrapy Items, Middlewares, Pipelines and Settings that Scrapy really stands out versus Python
+Requests/BeautifulSoup.
