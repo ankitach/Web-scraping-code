@@ -88,7 +88,7 @@ scrapy crawl bookspider -O cleandata.json
 Appends new data to an existing file:
 scrapy crawl bookspider -o cleandata.json
 
-pip install mysql mysql-connector-python
+pip install mysql-connector-python
 1:52:25
 
 connect with postgres
